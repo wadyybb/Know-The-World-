@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Know The World!</title>
+
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="css/ScrollTable.css" /> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="js/angular.min.js"></script>
+    <script src="controller/controller.js"></script>
+
+
+  </head>
+
+  <body>
+
+<!-- nav bar -->
+    
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><span class="glyphicon glyphicon-globe"></span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html">Tables</a></li>
+        <li><a href="plot.html">Plot</a></li>
+        <li><a href="mapreduce.html">Map Reduce</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+    <div class="container">
+      <div class="jumbotron">
+        <blockquote>
+          <h1><span class="glyphicon glyphicon-globe"></span>Know The World!</h1>
+          <footer>Created by <cite>Cheng Chang.</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+
+
+
+
+<!-- main contents -->
+
+    <div class = "container" ng-controller="AppCtrl">
+
+<!-- name? section -->
+      <div class="row">
+
+        <!-- Population Panel -->
+        <div class="col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Population of Countries in the World.</h3>
+            </div>
+            <div class="panel-body">
+              <div class="col-xs-6">
+                <button class="btn btn-primary btn-lg" data-toggle="tooltip" data-placement="right" title="Total Population of all countries in the world from 1991 to 2013." ng-click="getPopulation()">Populations</button>
+              </div>
+              <div class="col-xs-6">
+                <button class="btn btn-primary btn-lg" data-toggle="tooltip" data-placement="right" title="Top 10 Population of all countries in the world at 2013." ng-click="getPopulationrank()">Top 10</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GDP Panel -->
+        <div class="col-md-6">
+          <div class="panel panel-warning">
+            <div class="panel-heading">
+              <h3 class="panel-title">GDP of Countries in the World. (current US$)</h3>
+            </div>
+            <div class="panel-body">
+              <div class="col-xs-6">
+                <button class="btn btn-warning btn-lg" data-toggle="tooltip" data-placement="right" title="GDP of all countries in the world from 1991 to 2013." ng-click="getGDP()">GDP</button>
+              </div>
+              <div class="col-xs-6">
+                <button class="btn btn-warning btn-lg" data-toggle="tooltip" data-placement="right" title="Top 10 GDP of all countries in the world at 2013." ng-click="getGDPrank()">Top 10</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CO2 Panel -->
+        <div class="col-md-6">
+          <!-- <h1>Know The World!</h1> -->
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">CO2 Emission of the World. (kt)</h3>
+            </div>
+            <div class="panel-body">
+              <div class="col-xs-6">
+                <button class="btn btn-info btn-lg " data-toggle="tooltip" data-placement="right" title="CO2 emission from 1991 to 2010 of every country in the world." ng-click="getCO2()">CO2 emission</button>
+              </div>
+              <div class="col-xs-6">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="tooltip" data-placement="right" title="Top 10 CO2 emission Countries in the World in 2010." ng-click="getCO2rank()">Top 10</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forest Panel -->
+        <div class="col-md-6">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Forest-covering area of Countries in the World. (% of land area)</h3>
+            </div>
+            <div class="panel-body">
+              <div class="col-xs-6">
+                <button class="btn btn-success btn-lg" data-toggle="tooltip" data-placement="right" title="Forest area percentage of all countries in the world from 1991 to 2012." ng-click="getForest()">Forest Area</button>
+              </div>
+              <div class="col-xs-6">
+                <button class="btn btn-success btn-lg" data-toggle="tooltip" data-placement="right" title="Top 10 Forest are percentage of all countries in the world at 2012." ng-click="getForestrank()">Top 10</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+  <!-- adding contents -->
+        <div class="col-md-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Adding new data.</h3>
+            </div>
+            <div class="panel-body">
+              <form class="form-inline">
+                <div class="form-group">
+                  <label class="sr-only">Country Name</label>
+                  <input class="form-control" placeholder="Country Name" ng-model="world['Country Name']">
+                </div>
+                <select class="form-control" ng-model="world['Indicator Name']" ng-options="ind.value as ind.name for ind in indicators ">
+                  <option value="">Indicator Name...</option>
+                </select>
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputPassword3">1991</label>
+                  <input class="form-control" placeholder="1991" ng-model="world['1991']">
+                </div>
+                <button class="btn btn-primary" ng-click="addCountry()">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+          
+
+    <!-- search country -->
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Search Countries.</h3>
+            </div>
+            <div class="panel-body">
+              <form class="form-inline">
+                <div class="form-group">
+                  <label class="sr-only">Country Name</label>
+                  <input class="form-control" placeholder="Country Name" ng-model="countryName">
+                </div>
+                <button class="btn btn-primary" ng-click="searchCountry(countryName)">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+    <!-- updating data -->
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Update Data.</h3>
+            </div>
+            <div class="panel-body">
+              <form class="form-inline" >
+                <div class="form-group">
+                  <label class="sr-only">Country Name</label>
+                  <input class="form-control" placeholder="Country Name" ng-model="editlist['Country Name']" disabled>
+                </div>
+                <div class="form-group">
+                  <label class="sr-only">Indicator Name</label>
+                  <input class="form-control" placeholder="Indicator Name" ng-model="editlist['Indicator Name']" disabled>
+                </div>
+                <div class="form-group">
+                  <label>2010</label>
+                  <input class="form-control" placeholder="2010" ng-model="editlist['2010']">
+                </div>
+                <div class="form-group">
+                  <label>2012</label>
+                  <input class="form-control" placeholder="2012" ng-model="editlist['2012']">
+                </div>
+                <div class="form-group">
+                  <label>2013</label>
+                  <input class="form-control" placeholder="2013" ng-model="editlist['2013']">
+                </div>
+                <button class="btn btn-primary" ng-click="update(countryName)">Update</button>
+              </form>
+            </div>
+          </div>
+        </div>
+          
+
+
+      </div>
+
+<!-- table section-->
+      <div class ="row">
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th style="width:30px;"> # </th>
+                <th >Country Name</th>
+                <!-- <th style="width:140px;">Country Code</th> -->
+                <th>Indicator Name</th>
+                <th>1991</th>
+                <th>1995</th>
+                <th>2000</th>
+                <th>2005</th>
+                <th>2010</th>
+                <th>2011</th>
+                <th>2012</th>
+                <th>2013</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <div>
+            <tbody>
+              <tr ng-repeat="world in worldlist">
+                <td style="width:30px;" ng-bind="$index + 1"></td>
+                <td ng-bind="world['Country Name']"></td>
+                <!-- <td style="width:100px;" ng-bind="world['Country Code']"></td> -->
+                <td ng-bind="world['Indicator Name']"></td>
+                <td ng-bind="world['1991']"></td>
+                <td ng-bind="world['1995']"></td>
+                <td ng-bind="world['2000']"></td>
+                <td ng-bind="world['2005']"></td>
+                <td ng-bind="world['2010']"></td>
+                <td ng-bind="world['2011']"></td>
+                <td ng-bind="world['2012']"></td>
+                <td ng-bind="world['2013']"></td>
+                <td><button class="btn btn-danger btn-xs" ng-click="remove(world._id , world['Indicator Name'])">remove</button></td>
+                <td><button class="btn btn-warning btn-xs" ng-click="edit(world._id)">edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+
+  </body>
+
+  <script type="text/javascript">
+
+    $("[data-toggle=tooltip]").tooltip();
+
+  </script>
+
+</html>

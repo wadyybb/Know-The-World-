@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Know The World!</title>
+
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="css/ScrollTable.css" /> -->
+    <link href="css/examples.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    
+
+
+
+  </head>
+
+  <body>
+
+<!-- nav bar -->
+    
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><span class="glyphicon glyphicon-globe"></span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Tables</a></li>
+        <li><a href="plot.html">Plot</a></li>
+        <li class="active"><a href="mapreduce.html">Map Reduce</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+
+
+
+<!-- main contents -->
+
+    <div class = "container" ng-controller="MapCtrl">
+
+      <div class="row">
+
+        <div class="col-md-3">
+          <div class="panel panel-default">
+
+            <div class="panel-heading">
+              <h3 class="panel-title">Choices</h3>
+            </div>
+
+            <div class="panel-body">
+
+              <h5>Map Reduce 1</h5>
+                  <button class="btn btn-default btn-block" data-toggle="tooltip" data-placement="right" title="Total number of countries and areas in the database." ng-click="map = 'map1';mapReduce1()">Submit</button>
+              <h5>Map Reduce 2</h5>
+                  <button class="btn btn-default btn-block" data-toggle="tooltip" data-placement="right" title="All the name of countries and areas in the database." ng-click="map = 'map2';mapReduce2()">Submit</button>
+              <h5>Map Reduce 3</h5>
+                  <button class="btn btn-default btn-block" data-toggle="tooltip" data-placement="right" title="All the name of countries with the population bigger than 80 million in 2013." ng-click="map = 'map3';mapReduce3()">Submit</button>
+              <h5>Map Reduce 4</h5>
+                  <button class="btn btn-default btn-block" data-toggle="tooltip" data-placement="right" title="Total number of countries with the population bigger than 80 million in 2013." ng-click="map = 'map4';mapReduce4()">Submit</button>
+              <h5>Map Reduce 5</h5>
+                  <button class="btn btn-default btn-block" data-toggle="tooltip" data-placement="right" title="Total amount CO2 emissions of the whole World in 2010." ng-click="map = 'map5';mapReduce5()">Submit</button>
+              <h5>Map Reduce 6</h5>
+                  <button class="btn btn-default btn-block" data-toggle="tooltip" data-placement="right" title="The name of countries which GDP is bigger than 3 trillion in 2013." ng-click="map = 'map6';mapReduce6()">Submit</button>
+              <h5>Map Reduce 7</h5>
+                  <button class="btn btn-default btn-block" data-toggle="tooltip" data-placement="right" title="Total amount of GDP of the whole World in 2013." ng-click="map = 'map7';mapReduce7()">Submit</button>
+              <h5>Map Reduce 8</h5>
+                  <button class="btn btn-default btn-block" data-toggle="tooltip" data-placement="right" title="The name of countries in which has more than 80% urban population in 2012." ng-click="map = 'map8';mapReduce8()">Submit</button>
+            </div>
+
+          </div>
+        </div>
+
+
+<!-- results -->
+        <div class="col-md-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Result</h3>
+            </div>
+            <div class="panel-body" style="height:600px; overflow:auto;">
+              <div id="result" class="col-md-12">
+                <pre ng-bind="maplist | json" ></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<!-- map reduce -->
+        <div class="col-md-5">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Map Reduce</h3>
+            </div>
+            <div class="panel-body" style="height:600px">
+              <pre ng-show="map == 'map1'">
+var mapper = function () {
+    emit(this['Country Name'],1);
+};
+
+var reducer = function (country, count) {
+    return Array.sum(count);
+};
+
+db.json.mapReduce(
+    mapper,
+    reducer, {
+    out: "map1"
+    }
+);
+
+db.map1.find().count();
+              </pre>
+
+              <pre ng-show="map == 'map2'">
+var mapper = function () {
+    emit(this['Country Name'],1);
+};
+
+var reducer = function (country, count) {
+    return Array.sum(count);
+};
+
+db.json.mapReduce(
+    mapper,
+    reducer, {
+    out: "map2"
+    }
+);
+
+db.map2.find({},{_id:1});
+              </pre>
+
+              <pre ng-show="map == 'map3'">
+db.json.mapReduce( 
+  function(){ 
+      if(this['2013']>80000000){ 
+        emit(this['Country Name'],this['2013']); 
+      } 
+    }, 
+  function(key,values){ 
+    return Array.sum(values); 
+  }, 
+  { 
+    query:{"Indicator Name":"Population, total"},
+    out:'map3', 
+  });
+
+db.map3.find();
+              </pre>
+
+              <pre ng-show="map == 'map4'">
+db.json.mapReduce(
+  function(){
+    if(this['2013']>80000000){
+      emit(this['Indicator Name'],1);
+    }
+    else 
+      emit(this['Indicator Name'],0);
+    },
+  function(key,values){
+    var total=0;
+    for (var i=0;i&lt;values.length;i++){
+      total+=values[i];
+    }
+    return total;
+    },
+    {
+     query:{"Indicator Name":"Population, total"},
+     out:'map4'
+    });
+
+db.map4.find();
+              </pre>
+
+              <pre ng-show="map == 'map5'">
+db.json.mapReduce(
+  function(){
+    emit(this['Indicator Name'],this['2010']);
+  },
+  function(key,values){
+    var total=0;
+    for (var i=0;i&lt;values.length;i++){
+      total+=values[i];
+    }
+    return total;
+    },
+    {
+     query:{'Indicator Name':'CO2 emissions (kt)'},
+     out:'map5',
+    });
+
+db.map5.find();
+              </pre>
+
+              <pre ng-show="map == 'map6'">
+db.json.mapReduce( 
+  function(){ 
+    if(this['2013']>3000000000000){ 
+      emit(this['Country Name'],this['2013']); 
+    } 
+  }, 
+  function(key,values){ 
+    return Array.sum(values);
+  }, 
+  { 
+    query:{"Indicator Name":"GDP"},
+    out:'map6', 
+  }
+  );
+
+db.map6.find();
+              </pre>
+
+              <pre ng-show="map == 'map7'">
+db.json.mapReduce( 
+  function(){ 
+    emit(this['Indicator Name'],this['2013']); 
+  }, 
+  function(key,values){ 
+    var total=0;
+    for (var i=0;i&lt;values.length;i++){
+      total+=values[i];
+    }
+    return total;
+  }, 
+  { 
+    query:{"Indicator Name":"GDP"},
+    out:'map7'
+  }
+  );
+
+db.map7.find();
+              </pre>
+
+              <pre ng-show="map == 'map8'">
+db.json.mapReduce( 
+  function(){ 
+    if(this['2012']>80){
+      emit(this['Country Name'],this['2012']); 
+    }
+  }, 
+  function(key,values){ 
+    return values;
+  }, 
+  { 
+  query:{"Indicator Name":"Urban population (% of total)"},
+  out:'map8', 
+  }
+  );
+
+db.map8.find();
+              </pre>
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+          
+          
+          
+          
+
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="controller/controller.js"></script>
+    <script src="js/jquery.flot.js"></script>
+
+  </body>
+
+  <script type="text/javascript">
+
+    $("[data-toggle=tooltip]").tooltip();
+
+  </script>
+
+</html>

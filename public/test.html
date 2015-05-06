@@ -1,0 +1,36 @@
+heheheh
+
+
+  <script>
+
+      var btn = getElementById("testtn");
+
+     function hehe(){
+        alert("hehe");
+      }
+
+      
+      $("#testBtn").click(function(){
+
+        var formData = {"name":"shabi","sku":"31","price": 331};
+        
+        console.log("clicked");
+        
+        function onDataReceived(series) {
+
+                console.log(series);
+                alert(series.name);
+
+              }
+        
+        $.ajax({
+                url: "http://localhost:3000/api/products",
+                type: "POST",
+                dataType: "json",
+                success: onDataReceived,
+                data: formData
+              });
+        
+      });
+      
+  </script>

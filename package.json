@@ -1,0 +1,16 @@
+{
+  "name": "moNode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "^4.12.3",
+    "mongojs": "^0.18.2"
+  }
+}
